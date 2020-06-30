@@ -1,0 +1,74 @@
+<div class="signo-container mat-elevation-z3">
+
+  <mat-card class="signo-card">
+    <mat-card-header>
+      <mat-card-title>Registro de Signos del Paciente</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="signoForm" (ngSubmit)="onFormSubmit()">
+
+        <mat-form-field class="signo-full-width">
+          <input type="text" placeholder="Paciente" matInput [matAutocomplete]="autoPaciente" formControlName="paciente">
+          <mat-autocomplete #autoPaciente="matAutocomplete" [displayWith]="mostrarPaciente">
+            <mat-option *ngIf="isLoadingResults" class="is-loading">Cargando...</mat-option>
+            <ng-container *ngIf="!isLoadingResults">
+              <mat-option *ngFor="let p of pacientesFiltrados" [value]="p">
+                {{ p.nombres }} {{p.apellidos}}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+          <mat-error>
+            <span *ngIf="!signoForm.get('paciente').valid && signoForm.get('paciente').touched">Por favor ingrese el paciente</span>
+          </mat-error>
+        </mat-form-field>
+        <button type="button" mat-stroked-button (click)="openDialog()" style="position: absolute; right: 15px;">
+          Nuevo paciente
+        </button>
+        <br />
+        <mat-form-field class="signo-full-width">
+          <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" formControlName="fecha" [errorStateMatcher]="matcher">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>
+            <span *ngIf="!signoForm.get('fecha').valid && signoForm.get('fecha').touched">Por favor ingrese la Fecha</span>
+          </mat-error>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="signo-full-width">
+          <input matInput type="number" placeholder="Temperatura" formControlName="temperatura" [errorStateMatcher]="matcher"
+            autocomplete="false">
+          <mat-error>
+            <span *ngIf="!signoForm.get('temperatura').valid && signoForm.get('temperatura').touched">Por favor ingrese la
+              Temperatura</span>
+          </mat-error>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="signo-full-width">
+          <input matInput type="number" placeholder="Pulso" formControlName="pulso" [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!signoForm.get('pulso').valid && signoForm.get('pulso').touched">Por favor ingrese el Pulso</span>
+          </mat-error>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="signo-full-width">
+          <input matInput placeholder="Ritmo respiratorio" formControlName="ritmoRespiratorio" [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!signoForm.get('ritmoRespiratorio').valid && signoForm.get('ritmoRespiratorio').touched">Por favor ingrese el Ritmo
+              respiratorio</span>
+          </mat-error>
+        </mat-form-field>
+        <br />
+        <button type="submit" [disabled]="!signoForm.valid" mat-flat-button color="primary">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+        <button type="button" mat-stroked-button routerLink="/signo">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>

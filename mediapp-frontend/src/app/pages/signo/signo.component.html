@@ -1,0 +1,47 @@
+<mat-progress-bar  *ngIf="!isLoadingResults" mode="query"></mat-progress-bar>
+<div class="signo-card">
+  <router-outlet></router-outlet>
+</div>
+<h2 class="title-list">Listado de Signos</h2>
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="filtrar($event.target.value)" placeholder="Buscar por nombre">
+  </mat-form-field>
+</div>
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="paciente">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Paciente</mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.paciente.nombres | uppercase }} {{row.paciente.apellidos | lowercase}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="temperatura">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Temperatura </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.temperatura}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="fecha">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.fecha | date }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button mat-button color="primary" [routerLink]="['edicion', row.idSigno]">
+        <mat-icon>ballot</mat-icon>
+      </button>
+      <button mat-button color="accent" (click)="eliminar(row.idSigno)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidad" (page)="mostrarMas($event)"></mat-paginator>
+
+<button mat-fab color="accent" style="float: right" routerLink="/signo/nuevo">
+  <mat-icon>add_circle_outline</mat-icon>
+</button>

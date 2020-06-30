@@ -1,0 +1,51 @@
+<form [formGroup]="pacienteForm" (ngSubmit)="onFormSubmit()">
+  <mat-card class="signo-card">
+    <mat-card-header>
+      <mat-card-title>Registro del Paciente</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <mat-form-field class="field-full-width">
+        <input matInput placeholder="Nombres" minlength="3" required formControlName="nombres">
+        <mat-error>
+          <span *ngIf="!pacienteForm.get('nombres').valid && pacienteForm.get('nombres').touched">
+            Nombre es requerido y tiene que ser mayor a 3 caracteres
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="field-full-width">
+        <input matInput placeholder="Apellidos" required formControlName="apellidos">
+        <mat-error>
+          <span *ngIf="!pacienteForm.get('apellidos').valid && pacienteForm.get('apellidos').touched">Apellido es requerido</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="field-full-width">
+        <input matInput placeholder="DNI" required formControlName="dni" type="number">
+        <mat-error>
+          <span *ngIf="!pacienteForm.get('dni').valid && pacienteForm.get('dni').touched">DNI es requerido</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="field-full-width">
+        <input matInput placeholder="Teléfono" required formControlName="telefono" type="number">
+      </mat-form-field>
+
+      <mat-form-field class="field-full-width">
+        <input matInput placeholder="Direccion" required formControlName="direccion">
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!pacienteForm.valid">
+        <mat-icon>done</mat-icon>
+        <span>Aceptar</span>
+      </button>
+      <button mat-raised-button color="accent" (click)="cancelar()" type="button">
+        <mat-icon>close</mat-icon>
+        <span>Cancelar</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
